@@ -1,0 +1,22 @@
+version: "3"
+services:
+  apiserver:
+    image: golang:latest
+    container_name: apiserver
+    volumes:
+      - ./apiserver:/work
+    tty: true
+
+  proxy:
+    image: golang:latest
+    container_name: proxy
+    volumes:
+      - ./proxy:/work
+    tty: true
+
+  client:
+    image: golang:latest
+    container_name: client
+    volumes:
+      - ./client:/work
+    tty: true
