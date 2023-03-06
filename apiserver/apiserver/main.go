@@ -49,6 +49,18 @@ func main() {
 		w.WriteHeader(http.StatusUnauthorized)
 		http.Error(w, "Unauthorized", http.StatusUnauthorized)
 	})
+	r.Get("/update-token", func(w http.ResponseWriter, r *http.Request) {
+		if r.Header.Get("Authorization") == "valid_token" {
+			w.WriteHeader(http.StatusOK)
+			w.Write([]byte("validation OK!"))
+			return
+		} else {
+			w.Header().Add("WWW-Authenticate", `Bearer realm="SECRET AREA"`)
+			w.WriteHeader(http.StatusUnauthorized)
+			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+			return
+		}
+	})
 	r.Post("/token", func(w http.ResponseWriter, r *http.Request) {
 		for k, v := range r.Header {
 			log.Printf("Key: %#v\nValue: %#v", k, v)
